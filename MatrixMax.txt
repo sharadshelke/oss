@@ -1,0 +1,122 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define P 5
+#define R 3
+int allocation[P][R] = {
+    {2, 3, 2},
+    {4, 0, 0},
+    {5, 0, 4},
+    {4, 3, 3},
+    {2, 2, 4}
+};
+int max[P][R] = {
+    {9, 7, 5},
+    {5, 2, 2},
+    {1, 0, 4},
+    {4, 4, 4},
+    {6, 5, 5}
+};
+int available[R] = {3, 3, 2};
+int need[P][R];
+void calculateNeed()
+{
+    for (int i = 0; i < P; i++)
+    {
+        for (int j = 0; j < R; j++)
+        {
+            need[i][j] = max[i][j] - allocation[i][j];
+        }
+    }
+}
+
+void displayAllocationMax()
+{
+    printf("Process\tAllocation\tMax\n");
+    for (int i = 0; i < P; i++)
+    {
+        printf("P%d\t", i);
+        for (int j = 0; j < R; j++)
+        {
+            printf("%d ", allocation[i][j]);
+        }
+        printf("\t\t");
+        for (int j = 0; j < R; j++)
+        {
+            printf("%d ", max[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void displayNeed()
+{
+    printf("Process\tNeed\n");
+    for (int i = 0; i < P; i++)
+    {
+        printf("P%d\t", i);
+        for (int j = 0; j < R; j++)
+        {
+            printf("%d ", need[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void displayAvailable()
+{
+    printf("Available Resources:\n");
+    for (int j = 0; j < R; j++)
+    {
+        printf("%d ", available[j]);
+    }
+    printf("\n");
+}
+
+void acceptAvailable()
+{
+    printf("Enter available resources (A B C): ");
+    for (int j = 0; j < R; j++)
+    {
+        scanf("%d", &available[j]);
+    }
+}
+
+int main()
+{
+    int choice;
+    calculateNeed();
+
+    while (1)
+    {
+        printf("\nMenu:\n");
+        printf("1. Accept Available\n");
+        printf("2. Display Allocation, Max\n");
+        printf("3. Display Need Matrix\n");
+        printf("4. Display Available\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                acceptAvailable();
+                break;
+            case 2:
+                displayAllocationMax();
+                break;
+            case 3:
+                displayNeed();
+                break;
+            case 4:
+                displayAvailable();
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    }
+
+    return 0;
+}
